@@ -95,7 +95,7 @@ const Login =({navigation})=> {
             Ingresar 
           </Text>
         </TouchableOpacity>
-        <Text style={styles.forgotPassword}>No tengo una cuenta?</Text>
+        <Text style={styles.forgotPassword}>No tienes una cuenta?</Text>
         <StatusBar style="auto" />
       </View>
     </View>

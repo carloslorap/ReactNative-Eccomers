@@ -384,7 +384,7 @@ const ProductInfo = ({ route, navigation }) => {
                   textTransform: "uppercase",
                 }}
               >
-                {product.isAvailable ? "Add to cart" : "Not Avialable"}
+                {product.isAvailable ? "Agregar carrito" : "No disponible"}
               </Text>
             </TouchableOpacity>
           </View>

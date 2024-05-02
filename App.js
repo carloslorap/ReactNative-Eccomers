@@ -7,6 +7,7 @@ import Login from "./components/screens/Login";
 import Tienda from "./components/screens/Tienda";
 import 'react-native-gesture-handler'
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import Profile from "./components/User/Profile";
 
 
 
@@ -27,6 +28,8 @@ export default function App() {
             <Stack.Screen name="MyCart" component={MyCart} />
             <Stack.Screen name="ProductInfo" component={ProductInfo} />
             <Stack.Screen name="Login" component={Login} />
+
+            <Stack.Screen name="Profile" component={Profile} />
           </Stack.Navigator>
         </NavigationContainer>
       </GestureHandlerRootView>

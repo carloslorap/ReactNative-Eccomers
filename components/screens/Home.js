@@ -175,7 +175,7 @@ const Home = ({navigation}) => {
             justifyContent: 'space-between',
             padding: 16,
           }}>
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
             <Entypo
               name="login"
               style={{
