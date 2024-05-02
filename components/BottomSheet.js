@@ -1,6 +1,8 @@
 import { View, Text, Animated,Pressable } from "react-native";
 import React from "react";
 
+import FilterView from "./FilterView";
+
 
 const BottomSheet = ({setStatus}) => {
 
@@ -23,7 +25,11 @@ const BottomSheet = ({setStatus}) => {
   };
 
   React.useEffect(() => {
-    slideUp();
+
+    setTimeout(()=>{
+      slideUp();
+    },10)
+
   }, []);
 
 
@@ -64,6 +70,20 @@ const BottomSheet = ({setStatus}) => {
         ]} 
       >
         {/* contenido del BottomSheet */}
+        <FilterView/>
+        {/* <RangePrice/> */}
+        {/* <View>
+          <Text>Min Price</Text>
+          <View style={{borderColor:"#EBECF2",borderWidth:1,padding:10,marginTop:5,borderRadius:5}}>
+            <Text>$10</Text>
+          </View>
+        </View>
+        <View>
+          <Text>Max Price</Text>
+          <View style={{borderColor:"#EBECF2",borderWidth:1,padding:10,marginTop:5,borderRadius:5}}>
+            <Text>$100</Text>
+          </View>
+        </View> */}
 
       </Animated.View>
       </Pressable>

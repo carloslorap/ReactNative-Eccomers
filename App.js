@@ -5,6 +5,7 @@ import MyCart from "./components/screens/MyCart";
 import ProductInfo from "./components/screens/ProductInfo";
 import Login from "./components/screens/Login";
 import Tienda from "./components/screens/Tienda";
+import 'react-native-gesture-handler'
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 
