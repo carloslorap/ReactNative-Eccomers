@@ -9,11 +9,13 @@ import {
   TextInput,
 } from "react-native";
 import { COLOURS } from "../database/Database";
+import Fab from "../Fab";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Profile = ({ navigation }) => {
   return (
-    <ScrollView style={styles.body}>
+   <View style={{height:"100%"}}>
+     <ScrollView style={styles.body}>
       <View style={styles.containerHead}></View>
       <View style={styles.perfilImg}>
         <Image
@@ -73,6 +75,7 @@ const Profile = ({ navigation }) => {
             secureTextEntry={true}
           />
           <TouchableOpacity
+          
             style={{
               width: 200,
               height: 45,
@@ -80,7 +83,7 @@ const Profile = ({ navigation }) => {
               borderRadius: 20,
               justifyContent: "center",
               alignItems: "center",
-              marginTop: 20,
+              marginTop: 24,
             }}
           >
             <Text
@@ -98,6 +101,9 @@ const Profile = ({ navigation }) => {
         </View>
       </View>
     </ScrollView>
+
+    <Fab navigation={navigation}/>
+   </View>
   );
 };
 
