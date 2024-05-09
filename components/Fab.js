@@ -18,15 +18,16 @@ const Fab = ({ navigation }) => {
             icon: 'map-marker',
             action: () => console.log('presionando el boton 2'),
             translation: 'middle', /* left, middle, top */
-            path:"Home"  //de por mientras
+            path:"Direccion"  //de por mientras
         },
         {
             id: 3,
-            icon: 'cart',
+            icon: 'notebook',
             action: () => console.log('presionando el boton 3'),
             translation: 'top', /* left, middle, top */
-            path:"MyCart"
+            path:"MyOrders"
         },
+        
     ]
     
     const animatedValues = {
