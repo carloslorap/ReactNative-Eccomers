@@ -1,17 +1,28 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, TextInput, Dimensions, TouchableOpacity} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity,ToastAndroid,} from 'react-native';
 import Svg, { Path, Defs, LinearGradient, Stop } from "react-native-svg"
 import {COLOURS} from '../database/Database';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
+const Login =()=> {
+
+  const navigation = useNavigation();
 
 
-const Login =({navigation})=> {
+  const [user,setuser] = useState({
+    email:"carloslorapuma@gmail.com",
+    password:"carlos123"
+  }) 
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   function SvgTop() {
     return (
-      <Svg
+      <Svg 
       width={500}
       height={324} 
       fill="none"
@@ -53,6 +64,34 @@ const Login =({navigation})=> {
     </Svg>
     )
   }
+
+
+
+  const handleLogin = async () => {
+    if (user.email === email && user.password === password) {
+      ToastAndroid.show(
+        "Bienvenido a la tienda",
+        ToastAndroid.SHORT
+      );
+      try {
+        await AsyncStorage.setItem('user', JSON.stringify({ email, password }));
+      } catch (error) {
+        console.error('Error al guardar datos en AsyncStorage:', error.message);
+      }
+        navigation.navigate('Home');
+    }else{
+      ToastAndroid.show(
+        "Email o contraseña incorrecta",
+        ToastAndroid.SHORT
+      );
+    }
+  };
+
+
+
+
+
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.containerSVG}>
@@ -64,16 +103,22 @@ const Login =({navigation})=> {
         <TextInput 
           placeholder="jhon@email.com"
           style={styles.textInput}
+          value={email}
+          onChangeText={setEmail}
+  
         />
         <TextInput 
           placeholder="password"
           style={styles.textInput}
           secureTextEntry={true}
+          value={password}
+          onChangeText={setPassword}
+  
         />
         <Text style={styles.forgotPassword}>Olvidaste tu contraseña?</Text>
       
         <TouchableOpacity
-        onPress={() => navigation.navigate('Home')}
+          onPress={handleLogin}
           style={{
             width: '46%',
             height: '10%',

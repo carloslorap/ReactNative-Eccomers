@@ -52,7 +52,7 @@ export default function Accordion({ value }: Props) {
                 </Text>
             </Pressable>
             <Animated.View style={heightAnimationStyle}>
-                <Animated.View ref={listRef} style={styles.contentContainer}>
+                <Animated.View ref={listRef} style={styles.contentContainer}> 
                     {
                         value.contentNested.map((v, i) => {
                             return (
@@ -64,7 +64,6 @@ export default function Accordion({ value }: Props) {
                                                     <View style={{ flexDirection: "row", gap: 6 }}>
                                                         <View style={{ justifyContent: "center", backgroundColor: COLOURS.white, alignItems: "center", height: 100, width: 70 }}>
                                                             <Image source={subV.image} style={{ height: "100%", width: "100%", resizeMode: "contain" }} />
-
                                                         </View>
                                                         <View style={{ flexDirection: "column", marginTop: 18 }}>
                                                             <Text style={{ fontSize: 12, width: 90 }} numberOfLines={1}>{subV.titleProduct}</Text>

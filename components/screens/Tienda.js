@@ -12,11 +12,12 @@ import {
 } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
 import { COLOURS, Items } from "../database/Database";
-import Entypo from "react-native-vector-icons/Entypo";
+
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Octicons from "react-native-vector-icons/Octicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import BottomSheet from "../BottomSheet";
+import Header from "../Header";
 
 
 
@@ -213,56 +214,9 @@ const Tienda = ({ navigation }) => {
     >
       <StatusBar backgroundColor={COLOURS.white} barStyle="dark-content" />
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View
-          style={{
-            width: "100%",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            padding: 16,
-          }}
-        >
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Entypo
-              name="login"
-              style={{
-                fontSize: 18,
-                color: COLOURS.backgroundMedium,
-                padding: 12,
-                borderRadius: 10,
-                backgroundColor: COLOURS.backgroundLight,
-              }}
-            />
-          </TouchableOpacity>
-          <View style={{ display: "flex", flexDirection: "row", gap: 11 }}>
-            <TouchableOpacity onPress={() => navigation.navigate("MyCart")}>
-              <MaterialCommunityIcons
-                name="cart"
-                style={{
-                  fontSize: 18,
-                  color: COLOURS.backgroundMedium,
-                  padding: 12,
-                  borderRadius: 10,
-                  borderWidth: 1,
-                  borderColor: COLOURS.backgroundLight,
-                }}
-              />
-            </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-              <Entypo
-                name="home"
-                style={{
-                  fontSize: 18,
-                  color: COLOURS.backgroundMedium,
-                  padding: 12,
-                  borderRadius: 10,
-                  borderWidth: 1,
-                  borderColor: COLOURS.backgroundLight,
-                }}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
+        <Header navigation={navigation}/>
+
         <View
           style={{
             marginBottom: 10,
