@@ -17,9 +17,6 @@ const Home = ({ navigation }) => {
   const [accessory, setAccessory] = useState([]);
 
 
-
-
-
   //get called on screen loads
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
