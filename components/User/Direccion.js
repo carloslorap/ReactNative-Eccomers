@@ -26,19 +26,20 @@ const Direccion = ({ navigation }) => {
             <Text style={styles.titleUser}>Añadir Direccion</Text>
             <TouchableOpacity
               style={{
-                width:148,
+                width: 148,
                 height: 38,
                 backgroundColor: COLOURS.greenBlack,
                 borderRadius: 20,
                 justifyContent: "center",
                 alignItems: "center",
-                marginRight:22,
-                marginTop:10
+                marginRight: 22,
+                marginTop: 10,
               }}
+              onPress={() => navigation.navigate("DetalleDireccion")}
             >
               <Text
                 style={{
-                  fontSize: 9, 
+                  fontSize: 9,
                   fontWeight: "500",
                   letterSpacing: 1,
                   color: COLOURS.white,
@@ -52,7 +53,10 @@ const Direccion = ({ navigation }) => {
         </View>
         <View style={styles.container}>
           <View style={styles.userContainer}>
-            <TextInput placeholder="Nombre del destinatario" style={styles.textInput} />
+            <TextInput
+              placeholder="Nombre del destinatario"
+              style={styles.textInput}
+            />
             <TextInput placeholder="Direccion" style={styles.textInput} />
 
             <View
@@ -91,14 +95,8 @@ const Direccion = ({ navigation }) => {
                 }}
               />
             </View>
-            <TextInput
-              placeholder="Telefono"
-              style={styles.textInput}
-            />
+            <TextInput placeholder="Telefono" style={styles.textInput} />
 
-        
-
-          
             <TouchableOpacity
               style={{
                 width: 200,

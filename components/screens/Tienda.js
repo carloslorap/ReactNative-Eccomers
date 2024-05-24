@@ -9,26 +9,33 @@ import {
   TextInput,
   Animated,
   Keyboard,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
-import { COLOURS, Items } from "../database/Database";
+import { COLOURS } from "../database/Database";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Octicons from "react-native-vector-icons/Octicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import BottomSheet from "../BottomSheet";
 import Header from "../Header";
-
-
+import { useDispatch, useSelector } from "react-redux";
+import { AllProucts } from "../../redux/slice/productSlice";
 
 const Tienda = ({ navigation }) => {
+  const url = "https://servereccomersangular.onrender.com/api/";
+
+  const products = useSelector((state) => state?.products?.products?.data);
+  const loading = useSelector((state) => state?.products?.isLoading);
+  const dispatch = useDispatch();
+
   // buscardor paso 1
   const refInput = useRef();
   const animation = useRef(new Animated.Value(0)).current;
   const [toggle, setToggle] = useState(false);
   const [text, setText] = useState("");
 
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
   const [status, setStatus] = React.useState(false);
 
   // paso 2 del buscaddor
@@ -39,15 +46,6 @@ const Tienda = ({ navigation }) => {
       useNativeDriver: false,
     }).start();
   };
-
-  //get called on screen loads
-  useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      getDataFromDB();
-    });
-
-    return unsubscribe;
-  }, [navigation]);
 
   //paso 3 del buscador
   useEffect(() => {
@@ -61,29 +59,27 @@ const Tienda = ({ navigation }) => {
   const animatedStyles = {
     width: animation.interpolate({
       inputRange: [0, 1],
-      outputRange: ["0%", "100%"],
+      outputRange: ["0%", "100%"], 
       extrapolate: "clamp",
-    }),
+    }), 
   };
 
-  //get data from DB
-  const getDataFromDB = () => {
-    let productList = [];
-    for (let index = 0; index < Items.length; index++) {
-      if (Items[index]) {
-        productList.push(Items[index]);
-      }
-    }
+  useEffect(() => {
+    dispatch(AllProucts());
+  }, [dispatch]);
 
-    setProducts(productList);
-  };
+  useEffect(() => {
+    console.log("Cantidad de productos:", products?.length);
+  }, [products]);
+
+
 
   //create an product reusable card
   const ProductCard = ({ data }) => {
     return (
       <TouchableOpacity
         onPress={() =>
-          data && navigation.navigate("ProductInfo", { productID: data.id })
+          data && navigation.navigate("ProductInfo", { productSlug: data.slug })
         }
         style={{
           width: "48%",
@@ -102,7 +98,7 @@ const Tienda = ({ navigation }) => {
             marginBottom: 8,
           }}
         >
-          {data.isOff ? (
+          {/* {data.isOff ? (
             <View
               style={{
                 position: "absolute",
@@ -128,12 +124,12 @@ const Tienda = ({ navigation }) => {
                 {data.offPercentage}%
               </Text>
             </View>
-          ) : null}
+          ) : null} */}
           <Image
-            source={data.productImage}
+            source={{ uri: `${url}obtener_portada/${data?.portada}` }}
             style={{
-              width: "80%",
-              height: "80%",
+              width: "100%",
+              height: 100,
               resizeMode: "contain",
             }}
           />
@@ -146,60 +142,58 @@ const Tienda = ({ navigation }) => {
             marginBottom: 2,
           }}
         >
-          {data.productName}
+          {data?.titulo}
         </Text>
-        {data ? (
-          data.isAvailable ? (
-            <View
+        {data?.stock >= 1 ? (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <FontAwesome
+              name="circle"
               style={{
-                flexDirection: "row",
-                alignItems: "center",
+                fontSize: 12,
+                marginRight: 6,
+                color: COLOURS.green,
+              }}
+            />
+            <Text
+              style={{
+                fontSize: 12,
+                color: COLOURS.green,
               }}
             >
-              <FontAwesome
-                name="circle"
-                style={{
-                  fontSize: 12,
-                  marginRight: 6,
-                  color: COLOURS.green,
-                }}
-              />
-              <Text
-                style={{
-                  fontSize: 12,
-                  color: COLOURS.green,
-                }}
-              >
-                Disponible
-              </Text>
-            </View>
-          ) : (
-            <View
+              Disponible
+            </Text>
+          </View>
+        ) : (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <FontAwesome
+              name="circle"
               style={{
-                flexDirection: "row",
-                alignItems: "center",
+                fontSize: 12,
+                marginRight: 6,
+                color: COLOURS.red,
+              }}
+            />
+            <Text
+              style={{
+                fontSize: 12,
+                color: COLOURS.red,
               }}
             >
-              <FontAwesome
-                name="circle"
-                style={{
-                  fontSize: 12,
-                  marginRight: 6,
-                  color: COLOURS.red,
-                }}
-              />
-              <Text
-                style={{
-                  fontSize: 12,
-                  color: COLOURS.red,
-                }}
-              >
-                No Disponible
-              </Text>
-            </View>
-          )
-        ) : null}
-        <Text>S/{data.productPrice}</Text>
+              No Disponible
+            </Text>
+          </View>
+        )}
+        <Text>S/{data?.precio}</Text>
       </TouchableOpacity>
     );
   };
@@ -214,8 +208,7 @@ const Tienda = ({ navigation }) => {
     >
       <StatusBar backgroundColor={COLOURS.white} barStyle="dark-content" />
       <ScrollView showsVerticalScrollIndicator={false}>
-
-        <Header navigation={navigation}/>
+        <Header navigation={navigation} />
 
         <View
           style={{
@@ -250,73 +243,74 @@ const Tienda = ({ navigation }) => {
 
         {/* buscardor */}
         <View
+          style={{
+            height: 50,
+            borderRadius: 50,
+            alignSelf: "auto",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            overflow: "hidden",
+            marginHorizontal: 12,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => setToggle(!toggle)}
             style={{
-              height: 50,
+              width: 47,
+              height: 47,
               borderRadius: 50,
-              alignSelf: "auto",
-              display:"flex",
-              flexDirection:"row",
-              justifyContent: "space-between",
-              alignItems: "flex-start",
-              overflow: "hidden",
-              marginHorizontal:12
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: COLOURS.backgroundLight,
+              position: "absolute",
+              left: 1,
+              borderWidth: 1.5,
+              borderColor: "#fff",
+              zIndex: 10,
             }}
           >
-     
-           <TouchableOpacity
-              onPress={() => setToggle(!toggle)}
-              style={{ 
-                width: 47,
-                height: 47,
-                borderRadius: 50,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: COLOURS.backgroundLight,
-                position: 'absolute',
-                left: 1,
-                borderWidth: 1.5,
-                borderColor: '#fff',
-                zIndex: 10
-            }}
-            >
-              <Octicons
-                name="search"
-                style={{
-                  fontSize: 18,
-                  color: COLOURS.backgroundMedium,
-                  padding: 12,
-                  borderRadius: 10,
-                  borderWidth: 1,
-                  borderColor: "transparent",
-                }}
-              />
-            </TouchableOpacity>
-
-            <Animated.View
-              style={[{ height: 50, backgroundColor: COLOURS.backgroundLight }, animatedStyles]}
-            >
-              <TextInput
-                ref={refInput}
-                value={text}
-                onChangeText={setText}
-                selectionColor={COLOURS.backgroundMedium}
-                placeholder={"Comienza a buscar..."}
-                placeholderTextColor={COLOURS.backgroundMedium}
-                style={{
-                  height: '100%',
-                  flex: 1,
-                  fontSize: 13,
-                  fontWeight: 'bold',
-                  color: COLOURS.backgroundDark,
-                  justifyContent: 'center',
-                  alignItems: 'flex-start',
-                  paddingLeft: 60,
+            <Octicons
+              name="search"
+              style={{
+                fontSize: 18,
+                color: COLOURS.backgroundMedium,
+                padding: 12,
+                borderRadius: 10,
+                borderWidth: 1,
+                borderColor: "transparent",
               }}
-              />
-            </Animated.View> 
+            />
+          </TouchableOpacity>
 
+          <Animated.View
+            style={[
+              { height: 50, backgroundColor: COLOURS.backgroundLight },
+              animatedStyles,
+            ]}
+          >
+            <TextInput
+              ref={refInput}
+              value={text}
+              onChangeText={setText}
+              selectionColor={COLOURS.backgroundMedium}
+              placeholder={"Comienza a buscar..."}
+              placeholderTextColor={COLOURS.backgroundMedium}
+              style={{
+                height: "100%",
+                flex: 1,
+                fontSize: 13,
+                fontWeight: "bold",
+                color: COLOURS.backgroundDark,
+                justifyContent: "center",
+                alignItems: "flex-start",
+                paddingLeft: 60,
+              }}
+            />
+          </Animated.View>
 
-            <View>
+          <View>
             <TouchableOpacity onPress={() => setStatus(true)}>
               <MaterialCommunityIcons
                 name="filter-variant-minus"
@@ -327,12 +321,12 @@ const Tienda = ({ navigation }) => {
                   borderRadius: 10,
                   borderWidth: 1,
                   borderColor: COLOURS.backgroundLight,
-                  marginHorizontal:11
+                  marginHorizontal: 11,
                 }}
               />
             </TouchableOpacity>
-            </View>
           </View>
+        </View>
 
         <View
           style={{
@@ -343,7 +337,7 @@ const Tienda = ({ navigation }) => {
             style={{
               flexDirection: "row",
               alignItems: "center",
-              justifyContent: "space-between", 
+              justifyContent: "space-between",
             }}
           >
             <View
@@ -376,19 +370,30 @@ const Tienda = ({ navigation }) => {
             </View>
           </View>
 
-          
-
-          <View
-            style={{
-              flexDirection: "row",
-              flexWrap: "wrap",
-              justifyContent: "space-around",
-            }}
-          >
-            {products.map((data) => {
-              return <ProductCard data={data} key={data.id} />;
-            })}
-          </View>
+          {loading ? (
+            <View
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 120,
+              }}
+            >
+              <ActivityIndicator color={COLOURS.greenBlack} size={50} />
+            </View>
+          ) : (
+            <View
+              style={{
+                flexDirection: "row",
+                flexWrap: "wrap",
+                justifyContent: "space-around",
+              }}
+            >
+              {products?.map((data) => {
+                return <ProductCard data={data} key={data?._id} />;
+              })}
+            </View>
+          )}
         </View>
       </ScrollView>
 

@@ -57,7 +57,7 @@ export default function FilterView() {
 
 
                     {/* Marcas filtro*/}
-                    <View style={{ paddingHorizontal: 24, marginTop: 20 }}>
+                    {/* <View style={{ paddingHorizontal: 24, marginTop: 20 }}>
                         <Text style={{ fontSize: 16, fontWeight: "600", marginBottom: 12 }}>Marcas</Text>
                         <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
                             {
@@ -68,7 +68,7 @@ export default function FilterView() {
                                 })
                             }
                         </View>
-                    </View>
+                    </View> */}
                 </View>
 
             </ScrollView>

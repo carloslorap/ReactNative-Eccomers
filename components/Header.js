@@ -10,22 +10,27 @@ export default function Header({ navigation }) {
 
   // const handleDelete = async () => {
   //     try {
-  //       await AsyncStorage.removeItem("user");
+  //       await AsyncStorage.removeItem("userInfo");
   //       console.log("Datos eliminados correctamente del AsyncStorage.");
   //     } catch (error) {
   //       console.error("Error al eliminar datos del AsyncStorage:", error.message);
   //     }
   //   };
 
+  // const test =async()=>{
+  //   const usertest = await AsyncStorage.getItem("token") 
+  //   console.log(usertest);
+  // }
+
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const userDataString = await AsyncStorage.getItem("user");
+        const userDataString = await AsyncStorage.getItem("userInfo");
         if (userDataString !== null) {
           const user = JSON.parse(userDataString);
           setuser(user);
-        } else {
-          setuser(null);
+        } else { 
+          setuser(null); 
         }
       } catch (error) {
         console.error("Error al obtener datos del usuario:", error.message);
@@ -57,7 +62,7 @@ export default function Header({ navigation }) {
         />
       </TouchableOpacity>
       <View style={{ display: "flex", flexDirection: "row", gap: 11 }}>
-        <TouchableOpacity onPress={() => navigation.navigate("MyCart")}>
+        <TouchableOpacity onPress={()=>navigation.navigate("MyCart")}>
           <MaterialCommunityIcons
             name="cart"
             style={{
@@ -98,7 +103,7 @@ export default function Header({ navigation }) {
               style={{
                 fontSize: 18,
                 color: COLOURS.backgroundMedium,
-                padding: 12,
+                padding: 12, 
                 borderRadius: 10,
                 borderWidth: 1,
                 borderColor: COLOURS.backgroundLight,

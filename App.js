@@ -5,22 +5,23 @@ import MyCart from "./components/screens/MyCart";
 import ProductInfo from "./components/screens/ProductInfo";
 import Login from "./components/screens/Login";
 import Tienda from "./components/screens/Tienda";
-import 'react-native-gesture-handler'
+import "react-native-gesture-handler";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Profile from "./components/User/Profile";
 import Direccion from "./components/User/Direccion";
 import MyOrders from "./components/User/MyOrders";
-
-
+import { Provider } from "react-redux";
+ import  store  from "./redux/store";
+import DetalleDireccion from "./components/User/DetalleDireccion";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-
-      <GestureHandlerRootView style={{flex:1}}>
+  <Provider store={store}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
         <NavigationContainer>
-          <Stack.Navigator 
+          <Stack.Navigator
             screenOptions={{
               headerShown: false,
             }}
@@ -33,25 +34,11 @@ export default function App() {
 
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="Direccion" component={Direccion} />
+            <Stack.Screen name="DetalleDireccion" component={DetalleDireccion} />
             <Stack.Screen name="MyOrders" component={MyOrders} />
           </Stack.Navigator>
         </NavigationContainer>
       </GestureHandlerRootView>
-
-
+  </Provider>
   );
 }
-
-// const styles = StyleSheet.create({
-//   tabBar: {
-//     height: 70,
-//     position: "absolute",
-//     bottom: 25,
-//     marginHorizontal: 16,
-//     borderRadius: 16,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     borderWidth: 0.5,
-//     borderColor: "#dadada",
-//   },
-// });

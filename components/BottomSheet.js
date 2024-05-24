@@ -55,7 +55,7 @@ const BottomSheet = ({setStatus}) => {
         justifyContent: "flex-end",
       }}
     >
-      <Pressable style={{width:"100%",height:"80%"}}>
+      <Pressable style={{width:"100%",height:"65%"}}>
       <Animated.View
         style={[
           {
